@@ -273,8 +273,10 @@ function generateBootScript(manifest) {
   if (process.env.NODE_ENV === 'production') {
     defaultAssetRoot = `https://cdn.hypothes.is/hypothesis/${version}/`;
   } else {
-    const scheme = useSsl ? 'https': 'http';
-    defaultAssetRoot = `${scheme}://${packageServerHostname()}:3001/hypothesis/${version}/`;
+    const defaultAssetRootPrefix = process.env.ASSET_ROOT_PREFIX ?
+      `${process.env.ASSET_ROOT_PREFIX}` : `${scheme}://${packageServerHostname()}:3001`;
+
+    defaultAssetRoot = `${defaultAssetRootPrefix}/hypothesis/${version}/`;
   }
 
   if (isFirstBuild) {
